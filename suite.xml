@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="MyTestSuite">
+    <test name="TravelocityTest">
+        <classes>
+            <class name="com.globant.tests.BookingFlightTest"/>
+            <class name="com.globant.tests.BookingFlight_Hotel_CarTest"/>
+        </classes>
+    </test>
+</suite>
