@@ -1,6 +1,5 @@
 package com.globant.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -8,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
 import java.util.List;
+import java.util.Set;
 
 public class OptionsCruisesPage extends BasePage{
 
@@ -18,7 +18,7 @@ public class OptionsCruisesPage extends BasePage{
     @FindBy(css = ".uitk-spacing-margin-six > div .uitk-gallery-carousel")
     private List<WebElement> btnsCruises;
 
-    @FindBy(css = ".uitk-spacing-margin-six > div span.uitk-badge-base-text")
+    @FindBy(css = ".uitk-card-has-link .uitk-type-end .uitk-badge-base-text")
     private List<WebElement> labelDiscounts;
 
     @FindBy(css = "#sort-filter-dropdown-SortOption")
@@ -27,10 +27,16 @@ public class OptionsCruisesPage extends BasePage{
     @FindBy(css = "#sort-filter-dropdown-SortOption option:nth-child(1)")
     private WebElement btnSortByPrice;
 
+//    @FindBy(css = "div .uitk-carousel-container")
+//    private WebElement roomSections;
+//
+//    @FindBy(css = ".uitk-heading.uitk-spacing-padding-four")
+//    private WebElement labelItinerary;
+
     public void verifyDiscountsCruises() {
         getWait().until(ExpectedConditions.visibilityOfAllElements(labelDiscounts));
         Assert.assertFalse(labelDiscounts.isEmpty());
-        System.out.println(labelDiscounts.size());
+        Assert.assertTrue(btnsCruises.size()-labelDiscounts.size() != 0);
     }
 
     public void clickBtnSort(){
@@ -45,7 +51,20 @@ public class OptionsCruisesPage extends BasePage{
 
     public void clickOptionCruise(int optionCruise){
         getWait().until(ExpectedConditions.visibilityOfAllElements(btnsCruises));
-        btnsCruises.get(optionCruise).click();
+        btnsCruises.get(optionCruise-1).click();
+    }
+    public void switchWindow() {
+        getWait().until(ExpectedConditions.numberOfWindowsToBe(2));
+
+        String originalwindowHandle = driver.getWindowHandle();
+        Set<String> windows = driver.getWindowHandles();
+
+        for (String window : windows) {
+            if (!window.equals(originalwindowHandle)) {
+                driver.switchTo().window(window);
+                break;
+            }
+        }
     }
 
 }

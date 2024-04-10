@@ -6,21 +6,20 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
+import java.util.List;
+
 public class FlightDetailsPage extends BasePage{
 
     @FindBy(css = ".uitk-heading-5.uitk-spacing")
     private WebElement labelPriceSummary;
 
-    @FindBy(css = "div[data-test-id=\"journey-summary\"] > div:nth-child(1)")
-    private WebElement detailsDeparture;
-
-    @FindBy(css = "div[data-test-id=\"journey-summary\"] > div:nth-child(2)")
-    private WebElement detailsReturn;
+    @FindBy(css = "div[data-test-id=\"journey-summary\"] > div")
+    private List<WebElement> departureAndReturnInformation;
 
     @FindBy(css = ".uitk-typelist.uitk-typelist-orientation-inline a")
     private WebElement btnChangeFlight;
 
-    @FindBy(css = ".uitk-card-roundcorner-all.uitk-card-has-overflow > div:nth-child(2) button")
+    @FindBy(css = ".uitk-card-has-overflow > div:nth-child(2) button")
     private WebElement btnCheckOut;
 
     @FindBy(css = ".uitk-sheet.uitk-centered-sheet-small")
@@ -35,12 +34,12 @@ public class FlightDetailsPage extends BasePage{
 
     public void verifyFlightDetailsPage(){
         getWait().until(ExpectedConditions.visibilityOf(labelPriceSummary));
-        getWait().until(ExpectedConditions.visibilityOf(detailsDeparture));
-        getWait().until(ExpectedConditions.visibilityOf(detailsReturn));
-
         Assert.assertTrue(labelPriceSummary.isDisplayed());
-        Assert.assertTrue(detailsDeparture.isDisplayed());
-        Assert.assertTrue(detailsReturn.isDisplayed());
+        for (WebElement element : departureAndReturnInformation){
+            getWait().until(ExpectedConditions.visibilityOf(element));
+            Assert.assertTrue(element.isDisplayed());
+        }
+
     }
 
     public void clickBtnChangeFlight(){

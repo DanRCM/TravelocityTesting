@@ -13,6 +13,6 @@ public class BasePage {
         PageFactory.initElements(driver, this);
     }
     public WebDriverWait getWait(){
-        return new WebDriverWait(driver, Duration.ofSeconds (55));
+        return new WebDriverWait(driver, Duration.ofSeconds(40));
     }
 }

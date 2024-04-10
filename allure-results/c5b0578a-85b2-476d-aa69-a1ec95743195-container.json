@@ -1,0 +1,1 @@
+{"uuid":"c5b0578a-85b2-476d-aa69-a1ec95743195","name":"TravelocityTest","children":["d6b37615-6067-4d7c-968e-98b49fba0ba8"],"befores":[{"name":"setUp","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1712697038425,"stop":1712697039901}],"afters":[],"start":1712697038377,"stop":1712697123297}

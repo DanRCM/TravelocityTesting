@@ -1,10 +1,14 @@
 package com.globant.pages;
 
+import org.apache.logging.log4j.core.util.JsonUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomePage extends BasePage{
     public HomePage(WebDriver driver, String url){
@@ -12,27 +16,14 @@ public class HomePage extends BasePage{
         super.driver.get(url);
     }
 
-    @FindBy(css = ".uitk-tabs-container ul > li:nth-child(2) a")
-    private WebElement btnFlights;
+    @FindBy(css = "ul.uitk-tabs li a")
+    private List<WebElement> homeOptions;
 
-    @FindBy(css = ".uitk-tabs-container ul > li:nth-child(6) a")
-    private WebElement btnCruises;
+    public void selectBarOptionIndex(int index){
+        index = index - 1;
+        getWait().until(ExpectedConditions.visibilityOfAllElements(homeOptions));
 
-    public void verifyFlightsSection(){
-        getWait().until(ExpectedConditions.visibilityOf(btnFlights));
-        String estate = btnFlights.getAttribute("aria-selected");
-        Assert.assertEquals("true", estate);
+        homeOptions.get(index).click();
+        Assert.assertEquals("true", homeOptions.get(index).getAttribute("aria-selected"));
     }
-
-    public void clickBtnFlights(){
-        getWait().until(ExpectedConditions.visibilityOf(btnFlights));
-        btnFlights.click();
-        verifyFlightsSection();
-    }
-
-    public void clickBtnCruises(){
-        getWait().until(ExpectedConditions.visibilityOf(btnCruises));
-        btnCruises.click();
-    }
-
 }

@@ -33,36 +33,28 @@ public class ChooseStayPage extends BasePage{
     @FindBy(css = "#sort-filter-dropdown-sort option:nth-child(2)")
     private WebElement btnSortByPrice;
 
-    @FindBy(css = "div[data-stid=\"property-listing-results\"] > div:nth-child(1)")
-    private WebElement btnStayOptions;
+    @FindBy(css = "[data-stid=\"property-listing-results\"] > div:nth-child(1) a")
+    private WebElement btnStayOption;
 
     @FindBy(css = ".uitk-spacing-padding-blockend-unset .uitk-heading-3")
     private WebElement labelTittleStay;
 
-    @FindBy(css = "[data-stid = \"prominence-highly-rated-property\"] .uitk-badge-base-text")
+    @FindBy(css = ".uitk-badge-base-text[aria-hidden=\"false\"]")
     private WebElement labelStayRating;
 
-    @FindBy(css = ".align-end .uitk-lockup-price")
-    private WebElement labelPriceStay;
-
     @FindBy(css = "div[data-stid=\"property-listing-results\"] > div:nth-child(1) h3.uitk-layout-grid-item-has-row-start")
-    private WebElement labelFromTittleStayOption;
+    private WebElement labelTittleFromStayOptionPage;
+    @FindBy(css = ".uitk-spacing.uitk-spacing-margin-blockstart-unset > svg")
+    private List<WebElement> starNumberFromStayOptionPage;
 
-    @FindBy(css = "div[data-stid=\"property-listing-results\"] > div:nth-child(1) .uitk-lockup-price")
-    private WebElement labelFromPriceStayOption;
-
-    @FindBy(css = "div[data-stid=\"property-listing-results\"] > div:nth-child(1) .uitk-badge-base-text")
-    private WebElement labelFromStayRatingOption;
+    @FindBy(css = "div[data-stid=\"property-listing-results\"] > div:nth-child(1) .uitk-badge-base-text[aria-hidden=\"true\"]")
+    private WebElement labelRatingFromStayOptionPage;
 
     @FindBy(css = "form.uitk-form div:nth-child(2) > div:nth-child(8) ul > div")
     private List<WebElement> btnStars;
 
     public void verifyStayPage(){
-        getWait().until(ExpectedConditions.visibilityOf(btnViewInMap));
-        getWait().until(ExpectedConditions.visibilityOf(btnSortBy));
-        getWait().until(ExpectedConditions.visibilityOf(labelNumberBedrooms));
-        getWait().until(ExpectedConditions.visibilityOf(labelPropertyType));
-        getWait().until(ExpectedConditions.visibilityOf(labelStartRating));
+        getWait().until(ExpectedConditions.visibilityOfAllElements(btnSortBy,labelNumberBedrooms,labelPropertyType,labelStartRating,btnViewInMap));
 
         Assert.assertTrue(btnSortBy.isDisplayed());
         Assert.assertTrue(btnViewInMap.isDisplayed());
@@ -87,31 +79,27 @@ public class ChooseStayPage extends BasePage{
         btnStars.get(index).click();
     }
 
-    public void verifyOptionsStayPage(String tittle, String price, String rating){
-        getWait().until(ExpectedConditions.visibilityOf(labelTittleStay));
-        getWait().until(ExpectedConditions.visibilityOf(labelPriceStay));
-        getWait().until(ExpectedConditions.visibilityOf(labelStayRating));
+    public void verifyOptionsStayPage(String tittle, int starNumber,String rating){
+        getWait().until(ExpectedConditions.visibilityOfAllElements(labelStayRating,labelTittleStay));
+        getWait().until(ExpectedConditions.visibilityOfAllElements(starNumberFromStayOptionPage));
 
         Assert.assertEquals(labelTittleStay.getText(), tittle);
-        Assert.assertEquals(labelPriceStay.getText(), price);
+        Assert.assertEquals(starNumberFromStayOptionPage.size(), starNumber);
         Assert.assertEquals(labelStayRating.getText(), rating);
     }
 
     public void clickStayOption(){
-        getWait().until(ExpectedConditions.visibilityOf(labelFromTittleStayOption));
-        getWait().until(ExpectedConditions.visibilityOf(labelFromPriceStayOption));
-        getWait().until(ExpectedConditions.visibilityOf(labelFromStayRatingOption));
+        getWait().until(ExpectedConditions.visibilityOfAllElements(labelTittleFromStayOptionPage,labelTittleFromStayOptionPage));
 
-        String labelTittle = labelFromTittleStayOption.getText();
-        String labelPrices = labelFromPriceStayOption.getText();
-        String labelStay = labelFromStayRatingOption.getText();
+        String labelTittle = labelTittleFromStayOptionPage.getText();
+        String labelStay = labelRatingFromStayOptionPage.getText();
 
-        getWait().until(ExpectedConditions.elementToBeClickable(btnStayOptions));
-        btnStayOptions.click();
+        getWait().until(ExpectedConditions.elementToBeClickable(btnStayOption));
+        btnStayOption.click();
 
         switchWindow();
 
-        verifyOptionsStayPage(labelTittle,labelPrices, labelStay);
+        verifyOptionsStayPage(labelTittle, 3,labelStay);
     }
 
     public void switchWindow() {

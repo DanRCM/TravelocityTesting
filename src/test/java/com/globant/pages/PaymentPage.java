@@ -15,29 +15,26 @@ public class PaymentPage extends BasePage{
     @FindBy(css = ".faceoff-module-title-visual-alignment")
     private WebElement labelWhoIsTraveling;
 
-    @FindBy(css = "#best-price-guarantee .alert-title")
-    private WebElement labelPriceGuarantee;
+    @FindBy(css = ".your-price-summary")
+    private WebElement labelPriceSummary;
 
-    @FindBy(className = "insurance-header-title-padding")
-    private WebElement labelProtectFlight;
+    @FindBy(css = ".title-main .insurance-header-title-padding")
+    private WebElement labelProtectYourFlight;
 
     @FindBy(css = ".title-secure-icon")
-    private WebElement labelPaymentMethod;
+    private WebElement labelPayMethod;
 
-    @FindBy(css = ".faceoff-module-title")
-    private WebElement labelSendInformation;
+    @FindBy(css= ".product-title")
+    private WebElement labelRoundTrip;
+
 
     public void verifyPaymentPage(){
-        getWait().until(ExpectedConditions.visibilityOf(labelWhoIsTraveling));
-        getWait().until(ExpectedConditions.visibilityOf(labelPriceGuarantee));
-        getWait().until(ExpectedConditions.visibilityOf(labelProtectFlight));
-        getWait().until(ExpectedConditions.visibilityOf(labelPaymentMethod));
-        getWait().until(ExpectedConditions.visibilityOf(labelSendInformation));
+        getWait().until(ExpectedConditions.visibilityOfAllElements(labelWhoIsTraveling,labelPriceSummary,labelProtectYourFlight,labelPayMethod,labelRoundTrip));
 
-        Assert.assertTrue(labelPriceGuarantee.isDisplayed());
-        Assert.assertTrue(labelWhoIsTraveling.isDisplayed());
-        Assert.assertTrue(labelProtectFlight.isDisplayed());
-        Assert.assertTrue(labelPaymentMethod.isDisplayed());
-        Assert.assertTrue(labelSendInformation.isDisplayed());
+        Assert.assertEquals(labelPriceSummary.getText(),"Your price summary");
+        Assert.assertEquals(labelWhoIsTraveling.getText(),"Who's traveling?");
+        Assert.assertEquals(labelRoundTrip.getText(), "Roundtrip flight");
+        Assert.assertEquals(labelProtectYourFlight.getText(),"Protect your trip");
+        Assert.assertEquals(labelPayMethod.getText(),"How would you like to pay?");
     }
 }
